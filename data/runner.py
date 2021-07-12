@@ -1,9 +1,9 @@
 # Write your solution here!
 import csv
 import os
-from data.classes import App
-from data.classes import Customers
-from data.classes import Inventory
+from classes import App
+from classes import Customers
+from classes import Inventory
 
 mode = ''
 
@@ -14,13 +14,7 @@ while mode != '6':
         Inventory.get_current_inventory()
     elif mode == '2':
         drivers_id = input("Enter driver's license number: ")
-        my_path = os.path.abspath(os.path.dirname(__file__))
-        customers_path = os.path.join(my_path, "../assessment-2/data/customers.csv")
-        with open(customers_path, 'r') as data_file:
-                reader = csv.DictReader(data_file)
-                for row in reader:
-                    if row["id"] == (str(drivers_id)):
-                        print(f'Current Video Rentals: {row["current_video_rentals"]}')
+        Customers.get_customer_rentals(drivers_id)
 
     elif mode == '3':
         drivers_id = input("Enter driver's license number: ")
@@ -46,7 +40,16 @@ while mode != '6':
                         print('Yes, we have video that in stock!')
                     else:
                         print('We do not have that video in stock right now.')
-                    
+                    # if str(row["title"]) == input
+                        
+        # my_path = os.path.abspath(os.path.dirname(__file__))
+        # inventory_path = os.path.join(my_path, "../assessment-2/data/inventory.csv")
+        # with open(inventory_path, 'w') as data_file:
+        #         writer = csv.DictWriter(data_file)
+
+                    #decremement the copies_available
+                    #add the title to customer csv
+
     elif mode == "4":
         drivers_id = input("Enter driver's license number: ")
         App.return_video(drivers_id)
@@ -56,8 +59,8 @@ while mode != '6':
         user_data['first_name'] = input("Enter your first name: ")
         user_data['last_name'] = input("Enter your last name: ")
         user_data['current_video_rentals'] = ''
-        Customers.add_user(user_data)
-
+        new_user = Customers(user_data['id'], user_data['first_name'], user_data['last_name'], user_data['current_video_rentals'])
+        Customers.add_user(user_data, new_user)
 
     elif mode == '6':
         break
